@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rss-reader"
+version = "0.1.0"
+description = "A local, single-user RSS and Atom subscription reader."
+requires-python = ">=3.11"
+dependencies = [
+    "defusedxml>=0.7.1,<1",
+    "feedparser>=6.0.11,<7",
+    "Flask>=3.0,<4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0,<9"]
+
+[project.scripts]
+rss-reader = "rss_reader.__main__:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+rss_reader = ["templates/*.html", "static/*.css"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

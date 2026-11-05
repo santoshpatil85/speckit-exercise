@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RSS Feed Reader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <main class="page">
+      <header>
+        <h1>RSS Feed Reader</h1>
+        <p>Add an RSS or Atom feed to your subscriptions.</p>
+      </header>
+
+      {% if message %}
+      <p class="notice notice-success" role="status">{{ message }}</p>
+      {% endif %}
+      {% if error %}
+      <p class="notice notice-error" role="alert">{{ error }}</p>
+      {% endif %}
+
+      <section aria-labelledby="add-feed-heading">
+        <h2 id="add-feed-heading">Add a feed</h2>
+        <form action="{{ url_for('add_subscription') }}" method="post">
+          <label for="feed_url">Feed address</label>
+          <div class="form-row">
+            <input id="feed_url" name="feed_url" type="url" required
+                   placeholder="https://example.com/feed.xml">
+            <button type="submit">Add feed</button>
+          </div>
+        </form>
+      </section>
+
+      <section aria-labelledby="subscriptions-heading">
+        <h2 id="subscriptions-heading">Subscriptions</h2>
+        {% if subscriptions %}
+        <ul class="subscriptions">
+          {% for subscription in subscriptions %}
+          <li>
+            {% if subscription.title %}
+            <strong>{{ subscription.title }}</strong>
+            {% endif %}
+            <span class="feed-url">{{ subscription.feed_url }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-state">No feeds have been added yet.</p>
+        {% endif %}
+      </section>
+    </main>
+  </body>
+</html>
